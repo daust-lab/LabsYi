@@ -7,6 +7,7 @@ import RobotControls from '@/components/lab/RobotControls';
 import LogsPanel from '@/components/lab/LogsPanel';
 import VideoStream from '@/components/lab/VideoStream';
 import { robotAPI } from '@/lib/api/robot';
+import { Save, Play, Loader2 } from 'lucide-react';
 
 export default function LabPage() {
     const [code, setCode] = useState('');
@@ -66,14 +67,25 @@ export default function LabPage() {
                             onClick={handleSaveCode}
                             className="px-4 py-2 glass hover:bg-white/20 rounded-lg transition-colors font-semibold"
                         >
-                            💾 Save Code
+                            <Save className="w-5 h-5 inline mr-2" />
+                            Save Code
                         </button>
                         <button
                             onClick={handleExecuteCode}
                             disabled={isExecuting}
                             className="px-6 py-2 gradient-primary text-white rounded-lg font-bold glow transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {isExecuting ? '⚙️ Executing...' : '▶️ Execute Code'}
+                            {isExecuting ? (
+                                <>
+                                    <Loader2 className="w-5 h-5 animate-spin inline mr-2" />
+                                    Executing...
+                                </>
+                            ) : (
+                                <>
+                                    <Play className="w-5 h-5 inline mr-2" />
+                                    Execute Code
+                                </>
+                            )}
                         </button>
                     </div>
                 </div>

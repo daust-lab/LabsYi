@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { Bot, Rocket, Video, Globe, Calendar, Code, Play, BarChart, GraduationCap } from 'lucide-react';
 
 export default function HomePage() {
   return (
@@ -19,9 +20,9 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center gap-2">
-                <div className="text-2xl">🤖</div>
+                <Bot className="w-8 h-8 text-primary-500" />
                 <span className="text-xl font-bold gradient-primary bg-clip-text text-transparent">
-                  LeLab
+                  LabsYi
                 </span>
               </div>
               <div className="flex gap-4">
@@ -54,13 +55,15 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fadeIn">
             <Link href="/auth/signup">
-              <button className="px-8 py-4 gradient-primary text-white rounded-lg font-bold text-lg glow transform hover:scale-105 transition-all">
-                🚀 Start Learning Now
+              <button className="px-8 py-4 gradient-primary text-white rounded-lg font-bold text-lg glow transform hover:scale-105 transition-all flex items-center gap-2">
+                <Rocket className="w-5 h-5" />
+                Start Learning Now
               </button>
             </Link>
             <Link href="/lab">
-              <button className="px-8 py-4 glass hover:bg-white/20 rounded-lg font-bold text-lg transition-all">
-                📹 View Live Demo
+              <button className="px-8 py-4 glass hover:bg-white/20 rounded-lg font-bold text-lg transition-all flex items-center gap-2">
+                <Video className="w-5 h-5" />
+                View Live Demo
               </button>
             </Link>
           </div>
@@ -79,7 +82,7 @@ export default function HomePage() {
               key={index}
               className="glass-dark p-6 rounded-lg hover:glow transition-all transform hover:-translate-y-1 cursor-pointer"
             >
-              <div className="text-4xl mb-4">{feature.icon}</div>
+              <div className="mb-4">{feature.icon}</div>
               <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
               <p className="text-gray-400">{feature.description}</p>
             </div>
@@ -127,7 +130,7 @@ export default function HomePage() {
       <footer className="glass-dark border-t border-white/10 mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center text-gray-400">
-            <p>&copy; 2026 LeLab. Built for robotics learners worldwide.</p>
+            <p>&copy; 2026 LabsYi. Built for robotics learners worldwide.</p>
           </div>
         </div>
       </footer>
@@ -137,32 +140,32 @@ export default function HomePage() {
 
 const features = [
   {
-    icon: '🌍',
+    icon: <Globe className="w-10 h-10 text-primary-500" />,
     title: 'Learn From Anywhere',
     description: 'Access real robots from anywhere in the world. No hardware required.',
   },
   {
-    icon: '📅',
+    icon: <Calendar className="w-10 h-10 text-primary-500" />,
     title: 'Book Lab Sessions',
     description: 'Schedule your own time slots and get dedicated access to robots.',
   },
   {
-    icon: '💻',
+    icon: <Code className="w-10 h-10 text-primary-500" />,
     title: 'Write Real Code',
     description: 'Use our powerful code editor with syntax highlighting and templates.',
   },
   {
-    icon: '▶️',
+    icon: <Play className="w-10 h-10 text-primary-500" />,
     title: 'Execute on Robots',
     description: 'Watch your code run on real robots in real-time with live video feeds.',
   },
   {
-    icon: '📊',
+    icon: <BarChart className="w-10 h-10 text-primary-500" />,
     title: 'Get Instant Feedback',
     description: 'See execution logs, sensor data, and results immediately.',
   },
   {
-    icon: '🎓',
+    icon: <GraduationCap className="w-10 h-10 text-primary-500" />,
     title: 'Learn & Improve',
     description: 'Access tutorials, documentation, and improve with each session.',
   },

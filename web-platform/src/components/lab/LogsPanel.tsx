@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { robotAPI } from '@/lib/api/robot';
+import { CheckCircle, AlertTriangle, XCircle, Info, Download, Trash2, MapPin, MapPinned } from 'lucide-react';
 
 interface LogEntry {
     timestamp: string;
@@ -79,13 +80,13 @@ export default function LogsPanel() {
     const getLevelIcon = (level: LogEntry['level']) => {
         switch (level) {
             case 'error':
-                return '❌';
+                return <XCircle className="w-4 h-4" />;
             case 'warning':
-                return '⚠️';
+                return <AlertTriangle className="w-4 h-4" />;
             case 'success':
-                return '✅';
+                return <CheckCircle className="w-4 h-4" />;
             default:
-                return 'ℹ️';
+                return <Info className="w-4 h-4" />;
         }
     };
 
@@ -99,19 +100,31 @@ export default function LogsPanel() {
                         className={`px-3 py-1 rounded text-sm ${autoScroll ? 'bg-primary-600' : 'bg-gray-700'
                             } hover:opacity-80 transition-opacity`}
                     >
-                        {autoScroll ? '📍 Auto' : '📌 Manual'}
+                        {autoScroll ? (
+                            <>
+                                <MapPinned className="w-4 h-4 inline mr-1" />
+                                Auto
+                            </>
+                        ) : (
+                            <>
+                                <MapPin className="w-4 h-4 inline mr-1" />
+                                Manual
+                            </>
+                        )}
                     </button>
                     <button
                         onClick={downloadLogs}
                         className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm transition-colors"
                     >
-                        💾 Download
+                        <Download className="w-4 h-4 inline mr-1" />
+                        Download
                     </button>
                     <button
                         onClick={clearLogs}
                         className="px-3 py-1 bg-danger-600 hover:bg-danger-700 rounded text-sm transition-colors"
                     >
-                        🗑️ Clear
+                        <Trash2 className="w-4 h-4 inline mr-1" />
+                        Clear
                     </button>
                 </div>
             </div>

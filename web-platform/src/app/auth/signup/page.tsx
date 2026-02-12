@@ -4,6 +4,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Bot, UserPlus, Loader2 } from 'lucide-react';
 
 export default function SignupPage() {
     const router = useRouter();
@@ -57,9 +58,9 @@ export default function SignupPage() {
             <div className="relative w-full max-w-md">
                 <Link href="/">
                     <div className="flex items-center justify-center gap-2 mb-8 cursor-pointer">
-                        <div className="text-3xl">🤖</div>
+                        <Bot className="w-10 h-10 text-primary-500" />
                         <span className="text-2xl font-bold gradient-primary bg-clip-text text-transparent">
-                            LeLab
+                            LabsYi
                         </span>
                     </div>
                 </Link>
@@ -142,7 +143,17 @@ export default function SignupPage() {
                             disabled={isLoading}
                             className="w-full py-3 gradient-primary text-white rounded-lg font-bold glow transform hover:scale-105 transition-all disabled:opacity-50"
                         >
-                            {isLoading ? '⚙️ Creating Account...' : '🚀 Create Account'}
+                            {isLoading ? (
+                                <>
+                                    <Loader2 className="w-5 h-5 animate-spin inline mr-2" />
+                                    Creating Account...
+                                </>
+                            ) : (
+                                <>
+                                    <UserPlus className="w-5 h-5 inline mr-2" />
+                                    Create Account
+                                </>
+                            )}
                         </button>
                     </form>
 
@@ -154,10 +165,10 @@ export default function SignupPage() {
 
                     <div className="grid grid-cols-2 gap-3">
                         <button className="px-4 py-3 glass hover:bg-white/20 rounded-lg transition-colors font-semibold">
-                            <span className="mr-2">🔍</span> Google
+                            Google
                         </button>
                         <button className="px-4 py-3 glass hover:bg-white/20 rounded-lg transition-colors font-semibold">
-                            <span className="mr-2">😺</span> GitHub
+                            GitHub
                         </button>
                     </div>
 

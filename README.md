@@ -1,4 +1,185 @@
-# LeLab - Web Interface for LeRobot
+# LabsYi - Remote Robotics Learning Platform
+
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)
+![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)
+
+A comprehensive web-based platform for remote robotics training and control, built on top of LeRobot. LabsYi enables students and researchers to interact with robotic systems remotely through an intuitive interface.
+
+## About
+
+LabsYi provides a modern, accessible web interface for controlling and programming robots remotely. The platform is designed to facilitate robotics education and research by removing physical hardware barriers and enabling collaborative learning experiences.
+
+### Key Features
+
+**Robot Control**
+- Real-time robot control through an intuitive web interface
+- Support for multiple robot configurations
+- Live telemetry and sensor feedback
+- Emergency stop and safety controls
+
+**Data Recording**
+- Record and save robot trajectories
+- Automated dataset management
+- Support for various data formats
+- Episode tagging and organization
+
+**Model Training**
+- Train imitation learning models directly from the web interface
+- Real-time training progress monitoring
+- Hyperparameter configuration
+- Model versioning and management
+
+**Live Video Streaming**
+- Multiple camera views
+- Low-latency video streaming
+- Adjustable quality settings
+- Recording and playback capabilities
+
+**User Management**
+- Secure authentication and authorization
+- Role-based access control
+- Session management
+- Multi-user support
+
+## Technology Stack
+
+- **Frontend**: Next.js 16.1.6 with React
+- **Styling**: Tailwind CSS v4
+- **Icons**: Lucide React
+- **Backend**: Python FastAPI
+- **Robotics**: LeRobot framework
+- **WebSockets**: Real-time bidirectional communication
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.8 or higher
+- Node.js 18.17 or higher
+- NPM or Yarn package manager
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/LabsYi.git
+cd LabsYi
+```
+
+2. Install frontend dependencies:
+```bash
+cd web-platform
+npm install
+```
+
+3. Install backend dependencies:
+```bash
+cd ../backend
+pip install -r requirements.txt
+```
+
+### Running the Application
+
+1. Start the backend server:
+```bash
+cd backend
+python main.py
+```
+
+2. Start the frontend development server:
+```bash
+cd web-platform
+npm run dev
+```
+
+3. Open your browser and navigate to `http://localhost:3000`
+
+## Project Structure
+
+```
+LabsYi/
+├── web-platform/          # Next.js frontend application
+│   ├── src/
+│   │   ├── app/          # App router pages
+│   │   ├── components/   # React components
+│   │   ├── lib/          # Utilities and API clients
+│   │   └── styles/       # Global styles
+│   └── public/           # Static assets
+│
+├── backend/              # Python FastAPI backend
+│   ├── api/             # API endpoints
+│   ├── models/          # Data models
+│   ├── services/        # Business logic
+│   └── utils/           # Helper functions
+│
+└── docs/                # Documentation
+```
+
+## Features in Development
+
+**Advanced Training**
+- Reinforcement learning integration
+- Curriculum learning support
+- Multi-task learning capabilities
+
+**Enhanced Visualization**
+- 3D robot visualization
+- Trajectory planning tools
+- Performance analytics dashboard
+
+**Collaboration Tools**
+- Shared robot access scheduling
+- Real-time collaboration features
+- Code sharing and versioning
+
+**Extended Hardware Support**
+- Support for additional robot platforms
+- Custom sensor integration
+- Peripheral device management
+
+## Contributing
+
+We welcome contributions from the community! Please read our contributing guidelines before submitting pull requests.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Built on top of the LeRobot framework
+- Inspired by the need for accessible robotics education
+- Thanks to all contributors and the open-source community
+
+## Support
+
+For questions, issues, or feature requests, please open an issue on GitHub or contact our support team.
+
+## Roadmap
+
+**Q1 2024**
+- Multi-robot orchestration
+- Advanced data visualization
+
+**Q2 2024**
+- Mobile app development
+- Cloud deployment options
+
+**Q3 2024**
+- AI-assisted robot programming
+- Extended simulation capabilities
+
+---
+
+Made with passion for robotics education and research.
 
 A modern web-based interface for controlling and monitoring robots using the [LeRobot](https://github.com/huggingface/lerobot) framework. This application provides an intuitive dashboard for robot teleoperation, data recording, and calibration management.
 
