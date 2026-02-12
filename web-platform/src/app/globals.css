@@ -22,9 +22,6 @@ body {
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
@@ -35,27 +32,27 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-  
+
   .glass {
     @apply bg-white/10 backdrop-blur-lg border border-white/20;
   }
-  
+
   .glass-dark {
     @apply bg-black/20 backdrop-blur-lg border border-white/10;
   }
-  
+
   .gradient-primary {
     @apply bg-gradient-to-r from-primary-500 to-accent-500;
   }
-  
+
   .gradient-dark {
     @apply bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900;
   }
-  
+
   .glow {
     @apply shadow-lg shadow-primary-500/50;
   }
-  
+
   .glow-accent {
     @apply shadow-lg shadow-accent-500/50;
   }
@@ -88,9 +85,12 @@ body {
 
 /* Animation utilities */
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
