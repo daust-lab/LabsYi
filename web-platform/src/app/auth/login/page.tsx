@@ -4,27 +4,34 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { signIn, signInWithGoogle, signInWithGithub } from '@/lib/supabase';
 
 export default function LoginPage() {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
+        setError('');
 
         try {
-            // TODO: Implement Firebase authentication
-            console.log('Login:', { email, password });
+            const { data, error: signInError } = await signIn(email, password);
 
-            // For demo, redirect to lab
-            setTimeout(() => {
+            if (signInError) {
+                setError(signInError.message);
+                return;
+            }
+
+            if (data.user) {
                 router.push('/lab');
-            }, 1000);
-        } catch (error) {
-            console.error('Login error:', error);
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            setError('An error occurred during login');
         } finally {
             setIsLoading(false);
         }
@@ -50,6 +57,12 @@ export default function LoginPage() {
                 <div className="glass-dark rounded-lg p-8 glow">
                     <h1 className="text-2xl font-bold mb-2">Welcome Back</h1>
                     <p className="text-gray-400 mb-6">Sign in to access your lab sessions</p>
+
+                    {error && (
+                        <div className="mb-4 p-3 bg-danger-500/20 border border-danger-500 rounded-lg text-sm">
+                            {error}
+                        </div>
+                    )}
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
@@ -102,10 +115,18 @@ export default function LoginPage() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
-                        <button className="px-4 py-3 glass hover:bg-white/20 rounded-lg transition-colors font-semibold">
+                        <button
+                            type="button"
+                            onClick={async () => await signInWithGoogle()}
+                            className="px-4 py-3 glass hover:bg-white/20 rounded-lg transition-colors font-semibold"
+                        >
                             <span className="mr-2">🔍</span> Google
                         </button>
-                        <button className="px-4 py-3 glass hover:bg-white/20 rounded-lg transition-colors font-semibold">
+                        <button
+                            type="button"
+                            onClick={async () => await signInWithGithub()}
+                            className="px-4 py-3 glass hover:bg-white/20 rounded-lg transition-colors font-semibold"
+                        >
                             <span className="mr-2">😺</span> GitHub
                         </button>
                     </div>
