@@ -23,7 +23,8 @@ body {
 
 @layer base {
   body {
-    @apply bg-background text-foreground;
+    background: var(--background);
+    color: var(--foreground);
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
@@ -34,27 +35,31 @@ body {
   }
 
   .glass {
-    @apply bg-white/10 backdrop-blur-lg border border-white/20;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .glass-dark {
-    @apply bg-black/20 backdrop-blur-lg border border-white/10;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .gradient-primary {
-    @apply bg-gradient-to-r from-primary-500 to-accent-500;
+    background-image: linear-gradient(to right, #0ea5e9, #d946ef);
   }
 
   .gradient-dark {
-    @apply bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900;
+    background-image: linear-gradient(to bottom right, #111827, #1f2937, #111827);
   }
 
   .glow {
-    @apply shadow-lg shadow-primary-500/50;
+    box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.5), 0 4px 6px -4px rgba(14, 165, 233, 0.5);
   }
 
   .glow-accent {
-    @apply shadow-lg shadow-accent-500/50;
+    box-shadow: 0 10px 15px -3px rgba(217, 70, 239, 0.5), 0 4px 6px -4px rgba(217, 70, 239, 0.5);
   }
 }
 
@@ -80,7 +85,8 @@ body {
 
 /* Monaco Editor dark theme adjustments */
 .monaco-editor {
-  @apply rounded-lg overflow-hidden;
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 /* Animation utilities */
