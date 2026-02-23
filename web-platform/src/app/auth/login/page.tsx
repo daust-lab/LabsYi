@@ -1,155 +1,179 @@
-// Login Page
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn, signInWithGoogle, signInWithGithub } from '@/lib/supabase';
-import { Bot, LogIn, Loader2 } from 'lucide-react';
+import { Bot, LogIn, Loader2, ChevronLeft, Eye, EyeOff } from 'lucide-react';
+
+function LoginForm() {
+  const router       = useRouter();
+  const searchParams = useSearchParams();
+  const next         = searchParams.get('next') ?? '/booking';   // default: booking
+
+  const [email, setEmail]       = useState('');
+  const [password, setPassword] = useState('');
+  const [showPw, setShowPw]     = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError]       = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    try {
+      const { data, error: signInError } = await signIn(email, password);
+      if (signInError) { setError(typeof signInError === 'object' && signInError !== null && 'message' in signInError ? String((signInError as { message: string }).message) : 'Sign-in failed.'); return; }
+      if (data?.user)  router.push(next);
+    } catch {
+      setError('An error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen gradient-cyber flex items-center justify-center p-4">
+      {/* Background */}
+      <div className="fixed inset-0 cyber-grid opacity-40 pointer-events-none" />
+      <div className="fixed top-0 left-1/3 w-80 h-80 bg-sky-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="fixed bottom-0 right-1/3 w-96 h-96 bg-violet-500/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="relative w-full max-w-sm">
+        {/* Back */}
+        <Link href="/" className="flex items-center gap-1 mb-6 text-xs terminal-text text-slate-600 hover:text-slate-400 transition-colors">
+          <ChevronLeft className="w-3 h-3" />
+          Back to home
+        </Link>
+
+        {/* Logo */}
+        <div className="flex items-center justify-center gap-2 mb-8">
+          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-sky-500 to-violet-500 flex items-center justify-center">
+            <Bot className="w-5 h-5 text-white" />
+          </div>
+          <span className="text-xl font-bold">
+            <span className="text-white">Labs</span><span className="text-sky-400">Yi</span>
+          </span>
+        </div>
+
+        {/* Card */}
+        <div className="cyber-card rounded-2xl p-8 neon-border">
+          <h1 className="text-2xl font-bold text-white mb-1">Welcome back</h1>
+          <p className="text-slate-500 text-sm mb-6">Sign in to access your lab sessions</p>
+
+          {error && (
+            <div className="mb-5 px-3 py-2.5 rounded-lg bg-red-400/10 border border-red-400/25 text-sm text-red-400 terminal-text">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Email */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 mb-1.5 terminal-text">EMAIL</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2.5 bg-slate-900/60 border border-sky-400/15 hover:border-sky-400/30 focus:border-sky-400/50 rounded-lg text-sm text-white placeholder-slate-600 outline-none transition-colors"
+                placeholder="you@example.com"
+                required
+                autoComplete="email"
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 mb-1.5 terminal-text">PASSWORD</label>
+              <div className="relative">
+                <input
+                  type={showPw ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-2.5 pr-10 bg-slate-900/60 border border-sky-400/15 hover:border-sky-400/30 focus:border-sky-400/50 rounded-lg text-sm text-white placeholder-slate-600 outline-none transition-colors"
+                  placeholder="••••••••"
+                  required
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPw((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                >
+                  {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+
+            {/* Remember / forgot */}
+            <div className="flex items-center justify-between text-xs">
+              <label className="flex items-center gap-2 text-slate-500 cursor-pointer">
+                <input type="checkbox" className="accent-sky-400 rounded" />
+                Remember me
+              </label>
+              <Link href="/auth/reset" className="text-sky-400 hover:text-sky-300 transition-colors">
+                Forgot password?
+              </Link>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-2.5 rounded-lg font-bold text-sm text-white disabled:opacity-50 transition-all hover:opacity-90 flex items-center justify-center gap-2"
+              style={{ background: 'linear-gradient(135deg, #0ea5e9, #a855f7)', boxShadow: '0 0 20px rgba(14,165,233,0.3)' }}
+            >
+              {isLoading
+                ? <><Loader2 className="w-4 h-4 animate-spin" />Signing in…</>
+                : <><LogIn className="w-4 h-4" />Sign In</>}
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="my-5 flex items-center gap-3">
+            <div className="flex-1 h-px bg-sky-400/10" />
+            <span className="text-xs text-slate-600 terminal-text">or continue with</span>
+            <div className="flex-1 h-px bg-sky-400/10" />
+          </div>
+
+          {/* OAuth */}
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => signInWithGoogle()}
+              className="py-2.5 glass hover:bg-white/10 border border-white/8 hover:border-sky-400/25 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-all"
+            >
+              Google
+            </button>
+            <button
+              onClick={() => signInWithGithub()}
+              className="py-2.5 glass hover:bg-white/10 border border-white/8 hover:border-sky-400/25 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-all"
+            >
+              GitHub
+            </button>
+          </div>
+
+          <p className="text-center text-xs text-slate-600 mt-6">
+            No account?{' '}
+            <Link
+              href={`/auth/signup${next !== '/booking' ? `?next=${encodeURIComponent(next)}` : ''}`}
+              className="text-sky-400 hover:text-sky-300 font-semibold transition-colors"
+            >
+              Sign up free
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function LoginPage() {
-    const router = useRouter();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState('');
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setError('');
-
-        try {
-            const { data, error: signInError } = await signIn(email, password);
-
-            if (signInError) {
-                setError(signInError.message);
-                return;
-            }
-
-            if (data.user) {
-                router.push('/lab');
-            }
-        } catch (err) {
-            console.error('Login error:', err);
-            setError('An error occurred during login');
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    return (
-        <div className="min-h-screen gradient-dark flex items-center justify-center p-4">
-            <div className="absolute inset-0">
-                <div className="absolute top-20 left-20 w-72 h-72 bg-primary-500/30 rounded-full blur-3xl animate-float" />
-                <div className="absolute bottom-20 right-20 w-96 h-96 bg-accent-500/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
-            </div>
-
-            <div className="relative w-full max-w-md">
-                <Link href="/">
-                    <div className="flex items-center justify-center gap-2 mb-8 cursor-pointer">
-                        <Bot className="w-10 h-10 text-primary-500" />
-                        <span className="text-2xl font-bold gradient-primary bg-clip-text text-transparent">
-                            LabsYi
-                        </span>
-                    </div>
-                </Link>
-
-                <div className="glass-dark rounded-lg p-8 glow">
-                    <h1 className="text-2xl font-bold mb-2">Welcome Back</h1>
-                    <p className="text-gray-400 mb-6">Sign in to access your lab sessions</p>
-
-                    {error && (
-                        <div className="mb-4 p-3 bg-danger-500/20 border border-danger-500 rounded-lg text-sm">
-                            {error}
-                        </div>
-                    )}
-
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-semibold mb-2">Email</label>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="w-full px-4 py-3 glass rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                placeholder="your@email.com"
-                                required
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-semibold mb-2">Password</label>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="w-full px-4 py-3 glass rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                placeholder="••••••••"
-                                required
-                            />
-                        </div>
-
-                        <div className="flex items-center justify-between text-sm">
-                            <label className="flex items-center gap-2">
-                                <input type="checkbox" className="rounded" />
-                                <span>Remember me</span>
-                            </label>
-                            <Link href="/auth/reset" className="text-primary-400 hover:text-primary-300">
-                                Forgot password?
-                            </Link>
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="w-full py-3 gradient-primary text-white rounded-lg font-bold glow transform hover:scale-105 transition-all disabled:opacity-50"
-                        >
-                            {isLoading ? (
-                                <>
-                                    <Loader2 className="w-5 h-5 animate-spin inline mr-2" />
-                                    Signing in...
-                                </>
-                            ) : (
-                                <>
-                                    <LogIn className="w-5 h-5 inline mr-2" />
-                                    Sign In
-                                </>
-                            )}
-                        </button>
-                    </form>
-
-                    <div className="my-6 flex items-center gap-4">
-                        <div className="flex-1 h-px bg-white/10" />
-                        <span className="text-sm text-gray-500">or continue with</span>
-                        <div className="flex-1 h-px bg-white/10" />
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                        <button
-                            type="button"
-                            onClick={async () => await signInWithGoogle()}
-                            className="px-4 py-3 glass hover:bg-white/20 rounded-lg transition-colors font-semibold"
-                        >
-                            Google
-                        </button>
-                        <button
-                            type="button"
-                            onClick={async () => await signInWithGithub()}
-                            className="px-4 py-3 glass hover:bg-white/20 rounded-lg transition-colors font-semibold"
-                        >
-                            GitHub
-                        </button>
-                    </div>
-
-                    <p className="text-center text-sm text-gray-400 mt-6">
-                        Don't have an account?{' '}
-                        <Link href="/auth/signup" className="text-primary-400 hover:text-primary-300 font-semibold">
-                            Sign up
-                        </Link>
-                    </p>
-                </div>
-            </div>
-        </div>
-    );
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen gradient-cyber flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-sky-400 animate-spin" />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
+  );
 }

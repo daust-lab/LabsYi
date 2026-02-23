@@ -3,10 +3,8 @@ const WS_URL = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8000';
 
 export interface JointData {
     timestamp: number;
-    joints: {
-        [key: string]: number;
-    };
-    [key: string]: any;
+    joints: Record<string, number>;
+    [key: string]: number | string | boolean | null | undefined | Record<string, number>;
 }
 
 export type WebSocketCallback = (data: JointData) => void;
@@ -111,7 +109,7 @@ class WebSocketManager {
         };
     }
 
-    send(data: any) {
+    send(data: Record<string, unknown>) {
         if (this.ws?.readyState === WebSocket.OPEN) {
             this.ws.send(JSON.stringify(data));
         } else {

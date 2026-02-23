@@ -30,7 +30,7 @@ export function useRobotData() {
         };
     }, []);
 
-    const sendMessage = useCallback((data: any) => {
+    const sendMessage = useCallback((data: Record<string, unknown>) => {
         wsManager.send(data);
     }, []);
 
